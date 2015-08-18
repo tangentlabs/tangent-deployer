@@ -15,11 +15,15 @@ def link_qa_urls(autoscaling_group):
         while not instance_obj.dns_name:
             time.sleep(1)
             instance_obj = aws.ec2.get(instance_id=instance.instance_id)
-        route53_zone.update_cname(
-            name=env.qa_url % str(index + 1),
-            value=instance_obj.dns_name,
-            ttl=env.ttl_in_seconds
-        )
+        [
+            route53_zone.update_cname(
+                name=qa_url % str(index + 1),
+                value=instance_obj.dns_name,
+                ttl=env.ttl_in_seconds
+            )
+            for qa_url
+            in env.qa_urls
+        ]
     utils.success('Finished linking the instances to the QA URLs')
 
 

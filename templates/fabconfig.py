@@ -153,7 +153,7 @@ env.connections = utils.BotoConnection(
 def stage():
     utils.status("Setting up STAGE")
     env.zone = 'your-domain.co.uk.'  # Base R53 zone, the dot is significant
-    env.qa_url = 'www.qa%s.your-domain.co.uk.'
+    env.qa_urls = ['www.qa%s.your-domain.co.uk.']
     env.urls = ['www.your-domain.co.uk']
     env.base_url = 'your-domain.co.uk'
     env.environment = 'stage'
@@ -203,7 +203,7 @@ def stage():
 def live():
     utils.status("Setting up LIVE")
     env.zone = 'your-domain.co.uk.'  # Base R53 zone, the dot is significant
-    env.qa_url = 'www.qa%s.your-domain.co.uk.'
+    env.qa_url = ['www.qa%s.your-domain.co.uk.']
     env.urls = ['www.your-domain.co.uk']
     env.base_url = 'your-domain.co.uk'
     env.environment = 'live'
