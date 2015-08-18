@@ -8,7 +8,7 @@ Installation and Usage
 
 Installing and using the tangent deployer is easy. Install the package:
 
-    pip install tangent-deployer
+    pip install tangentdeployer
 
 Create the following files:
 
