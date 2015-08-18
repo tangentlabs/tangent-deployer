@@ -1,0 +1,6 @@
+A fabric based deploy script for AWS based projects.
+
+At the moment this only supports docker based projects but will be expanded 
+on in the future.
+
+See full documentation at: https://github.com/tangentlabs/tangent-deployer

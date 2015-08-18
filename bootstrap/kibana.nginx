@@ -1,0 +1,24 @@
+upstream kibana {
+    server 127.0.0.1:5601;
+}
+
+server {
+  listen   80; ## listen for ipv4; this line is default and implied
+  listen   443;
+  listen   [::]:80 default ipv6only=on; ## listen for ipv6
+  listen   [::]:443 default ipv6only=on; ## listen for ipv6
+  error_log /var/log/nginx/error.log;
+  access_log /var/log/nginx/access.log;
+
+  location = /health {
+    return 200;
+    access_log off;
+  }
+
+  location / {
+    auth_basic "Restricted";
+    auth_basic_user_file /etc/nginx/users;
+    proxy_pass http://kibana;
+    proxy_read_timeout 90;
+  }
+}

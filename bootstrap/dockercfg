@@ -1,0 +1,10 @@
+{
+	"docker-images-dev.tangentlabs.co.uk": {
+		"auth": "",
+		"email": ""
+	},
+	"docker.tangentlabs.co.uk": {
+		"auth": "",
+		"email": ""
+	}
+}

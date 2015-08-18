@@ -1,0 +1,9 @@
+/var/log/supervisor/*.log 
+/var/log/app/*/*.log 
+/var/log/app/*.log {
+    missingok
+    compress
+    weekly
+    size 10M
+    rotate 14
+}
