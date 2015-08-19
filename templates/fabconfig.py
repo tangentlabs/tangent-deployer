@@ -65,20 +65,6 @@ S3 bucket to keep all bootstrap files, this bucket should not be public.
 env.s3_bootstrap_bucket = ''
 
 """
-The location of your dockercfg file with your registry credentials.
-
-This will be copied to ~/.dockercfg on your application machines.
-"""
-env.dockercfg = 'bootstrap/dockercfg'
-
-"""
-The location of your Kibana nginx config.
-
-This will be mounted to /etc/nginx/sites/enabled inside your nginx container
-"""
-env.kibana_nginx_config = 'bootstrap/kibana.nginx'
-
-"""
 The URL you will use to hit your Kibana box
 """
 env.logging_urls = ['']
@@ -98,11 +84,6 @@ ElasticSearch.
 env.elasticsearch_host = ''
 
 """
-The location of your logrotate config
-"""
-env.logrotate_config = 'bootstrap/logrotate.d/your-app.conf'
-
-"""
 Time to live for zone records - note some DNS relays don't honour the TTL
 so it's best to not rely on it for anything important.
 """
@@ -118,12 +99,6 @@ env.nagios_master_config_file = 'bootstrap/nagios/nagios.cfg'
 env.nagios_group_name = ''
 
 env.nagios_host_local_nrpe_config = 'bootstrap/nagios/nrpe_local.cfg'
-env.nagios_host_nrpe_config = 'bootstrap/nagios/nrpe.cfg'
-env.nagios_plugins = {
-    'check_connections': 'bootstrap/nagios/check_connections',
-    'check_cpu': 'bootstrap/nagios/check_cpu',
-    'check_mem': 'bootstrap/nagios/check_mem'
-}
 env.nagios_plugin_location = '/usr/lib/nagios/plugins'
 
 # Cloudwatch alarm settings
@@ -147,6 +122,8 @@ services = [
     'boto.s3']
 env.connections = utils.BotoConnection(
     profile_name=env.profile_name, services=services)
+
+env.bootstrap_folder = 'bootstrap'
 
 
 @task
