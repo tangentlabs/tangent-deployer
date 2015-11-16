@@ -13,7 +13,6 @@ def deploy(branch='master'):
     utils.collect_static_files()
     utils.syncdb()
     utils.run_migrations()
-    utils.update_permissions()
 
     utils.create_logging_dirs()
     utils.deploy_nginx_config()

@@ -61,14 +61,6 @@ def collect_static_files():
         manage_py_cmd('collectstatic --noinput')
 
 
-def update_permissions():
-    with lcd(env.code_dir):
-        # Alter permissions to allow FEDs to alter files
-        local('sudo chown -R root:www-data %(code_dir)s/templates %(code_dir)s/public' % env)
-        local('sudo chmod -R g+w %(code_dir)s/templates %(code_dir)s/public' % env)
-        local('sudo chmod +x %(code_dir)s/deploy/scripts/*' % env)
-
-
 def run_migrations():
     with lcd(env.code_dir):
         manage_py_cmd('migrate')
