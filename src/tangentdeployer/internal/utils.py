@@ -97,7 +97,7 @@ def deploy_cronjobs():
     "Deploys the cron jobs"
     print(green('Deploying cronjobs'))
     with lcd(env.builds_dir):
-        local('if [ $(ls %(build)s/deploy/cron.d) ]; then mv %(build)s/deploy/cron.d/*%(build)s /etc/cron.d/; fi' % env)
+        local('if [ -d %(build)s/deploy/cron.d ]; then mv %(build)s/deploy/cron.d/*%(build)s /etc/cron.d/; fi' % env)
 
 
 def reload_app():
