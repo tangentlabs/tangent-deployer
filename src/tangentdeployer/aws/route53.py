@@ -1,6 +1,6 @@
 import time
 import utils
-import aws.ec2
+from . import ec2
 
 from fabconfig import env
 
@@ -11,10 +11,10 @@ def link_qa_urls(autoscaling_group):
 
     for index, instance in enumerate(autoscaling_group.instances):
         utils.status('Waiting on a public DNS name for instances')
-        instance_obj = aws.ec2.get(instance_id=instance.instance_id)
+        instance_obj = ec2.get(instance_id=instance.instance_id)
         while not instance_obj.dns_name:
             time.sleep(1)
-            instance_obj = aws.ec2.get(instance_id=instance.instance_id)
+            instance_obj = ec2.get(instance_id=instance.instance_id)
         [
             route53_zone.update_cname(
                 name=qa_url % str(index + 1),

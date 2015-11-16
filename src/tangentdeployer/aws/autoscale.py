@@ -3,7 +3,7 @@ import utils
 import datetime
 import boto.ec2.autoscale
 
-import aws.ec2
+from . import ec2
 from fabconfig import env
 
 
@@ -261,10 +261,10 @@ def assign_elastic_ip_addresses(autoscaling_group):
 
     for index, instance in enumerate(autoscaling_group.instances):
         utils.status("Waiting on instances to spin up...")
-        instance_obj = aws.ec2.get(instance_id=instance.instance_id)
+        instance_obj = ec2.get(instance_id=instance.instance_id)
         while instance_obj.state != 'running':
             time.sleep(1)
-            instance_obj = aws.ec2.get(instance_id=instance.instance_id)
+            instance_obj = ec2.get(instance_id=instance.instance_id)
             print('Instance status: %s' % instance_obj.state)
         address = free_addresses.pop(index)
         env.connections.ec2.associate_address(
