@@ -90,7 +90,8 @@ def deploy_nginx_config():
 def deploy_supervisor_config():
     print(green('Moving supervisor config into place'))
     with lcd(env.builds_dir):
-        local('sudo mv %(build)s/%(supervisor_conf)s /etc/supervisor/conf.d/' % env)
+        local('sudo mv %(build)s/%(supervisor_conf)s '
+              '/etc/supervisor/conf.d/%(project)s_%(build)s.conf' % env)
 
 
 def deploy_cronjobs():
