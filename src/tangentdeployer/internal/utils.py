@@ -83,7 +83,7 @@ def deploy_nginx_config():
         local('sudo mv %(build)s/%(nginx_conf)s '
               '/etc/nginx/sites-enabled/%(project)s-%(build)s.conf' % env)
         local('sudo mv %(build)s/%(nginx_users)s '
-              '/etc/nginx/%(project)s_%(build)s_users' % env)
+              '/etc/nginx/%(project)s-%(build)s-users' % env)
     nginx_reload()
 
 
