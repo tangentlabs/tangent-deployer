@@ -35,8 +35,8 @@ def unpack(archive_path, branch):
         local('if [ -d "%(build_dir)s" ]; then sudo rm -rf "%(build_dir)s"; fi' % env)
         local('sudo mv %(web_dir)s %(build_dir)s' % env)
 
-        # Symlink in uploads folder
-        local('sudo ln -s %(root_dir)s/media/%(build)s %(build_dir)s/public/managed' % env)
+        if env.media_dir:
+            link_media_dir()
 
         # Create new symlink
         local('if [ -h %(build)s ]; then sudo unlink %(build)s; fi' % env)
@@ -143,3 +143,7 @@ def manage_py_cmd(cmd, *args, **kwargs):
 
 def get_commit_id():
     return local('git rev-parse HEAD', capture=True)[:20]
+
+
+def link_media_dir():
+    local('sudo ln -s %(media_dir)s %(build_dir)s/public/media' % env)
