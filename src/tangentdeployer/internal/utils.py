@@ -35,7 +35,7 @@ def unpack(archive_path, branch):
         local('if [ -d "%(build_dir)s" ]; then sudo rm -rf "%(build_dir)s"; fi' % env)
         local('sudo mv %(web_dir)s %(build_dir)s' % env)
 
-        if env.media_dir:
+        if hasattr(env, 'media_dir'):
             link_media_dir()
 
         # Create new symlink
