@@ -51,30 +51,42 @@ def unpack(archive_path, branch):
         local('sudo rm %s' % archive_path)
 
 
+def create_directory(directory):
+    local('sudo mkdir -p %s' % directory)
+
+
 def update_virtualenv():
+    virtualenv_dir = os.path.join(env.root_dir, 'environments')
+    create_directory(virtualenv_dir)
+    if not os.path.exists(os.path.join(virtualenv_dir, env.build)):
+        with lcd(virtualenv_dir):
+            local('sudo virtualenv %s' % env.build)
     with lcd(env.code_dir):
         source_cmd('pip install -r deploy/requirements.txt')
 
 
 def collect_static_files():
+    create_directory(env.code_dir)
     with lcd(env.code_dir):
         manage_py_cmd('collectstatic --noinput')
 
 
 def run_migrations():
+    create_directory(env.code_dir)
     with lcd(env.code_dir):
         manage_py_cmd('migrate')
 
 
 def syncdb():
+    create_directory(env.code_dir)
     with lcd(env.code_dir):
         manage_py_cmd('syncdb --noinput')
 
 
 def create_logging_dirs():
-    with lcd(env.builds_dir):
-        local('sudo mkdir -p ../logs/')
-        local('sudo chown -R www-data:www-data ../logs')
+    logging_directory = os.path.join(env.root_dir, 'logs')
+    create_directory(logging_directory)
+    local('sudo chown -R www-data:www-data %s' % logging_directory)
 
 
 def deploy_nginx_config():
@@ -82,8 +94,9 @@ def deploy_nginx_config():
     with lcd(env.builds_dir):
         local('sudo mv %(build)s/%(nginx_conf)s '
               '/etc/nginx/sites-enabled/%(project)s-%(build)s.conf' % env)
-        local('sudo mv %(build)s/%(nginx_users)s '
-              '/etc/nginx/%(project)s-%(build)s-users' % env)
+        if 'nginx_users' in env:
+            local('sudo mv %(build)s/%(nginx_users)s '
+                  '/etc/nginx/%(project)s-%(build)s-users' % env)
     nginx_reload()
 
 
