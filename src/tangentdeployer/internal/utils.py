@@ -19,7 +19,7 @@ def archive_repo():
     return archive_filename
 
 
-def unpack(archive_path, branch):
+def unpack(archive_path):
     print(green("Creating build folder"))
 
     commit_id = get_commit_id()
@@ -43,9 +43,9 @@ def unpack(archive_path, branch):
         local('sudo ln -s %(build_dir)s %(build)s' % env)
 
         # Add file indicating Git commit
-        local('echo -e "branch: %s\ncommit: %s\nuser: %s" | '
+        local('echo -e "commit: %s\nuser: %s" | '
               'sudo tee -a %s/build-info > /dev/null' %
-              (branch, commit_id, env.user, env.build))
+              (commit_id, env.user, env.build))
 
         # Remove archive
         local('sudo rm %s' % archive_path)
