@@ -10,12 +10,12 @@ green_bg = _wrap_with('42')
 red_bg = _wrap_with('41')
 
 
-def archive_repo(branch):
+def archive_repo():
     commit_id = get_commit_id()
     archive_filename = '/tmp/build-%s.tar.gz' % str(commit_id)
 
-    local('git archive --format tar %s %s | gzip > %s' %
-          (branch, env.web_dir, archive_filename))
+    local('git archive --format tar HEAD %s | gzip > %s' %
+          (env.web_dir, archive_filename))
     return archive_filename
 
 
