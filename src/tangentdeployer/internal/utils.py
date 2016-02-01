@@ -116,6 +116,8 @@ def deploy_cronjobs():
 
 
 def reload_app():
+    if 'touch_reload' not in env:
+        return
     print(green('Touching uWSGI ini file to reload python code'))
     with lcd(env.builds_dir):
         local('sudo touch %(builds_dir)s/%(build)s/%(touch_reload)s' % env)
